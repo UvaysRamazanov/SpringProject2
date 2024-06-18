@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Book</title>
+</head>
+<body>
+<p th:text="${book.getName()+', '+ book.getAuthor()+', '+book.getYear()}">Value</p>
+
+<!--Если через модель был передан ключ owner в котором лежит владелец книги, то выполняется этот фрагмент кода -->
+
+<div th:if="${owner}">
+    <span>The book is now at: </span> <span th:text="${owner.getFullName()}">Person name</span>
+
+    <form th:method="PATCH" th:action="@{/book/{id}/release (id=${book.getId()})}"> <!--POST создаёт ресурсы, а PATCH обновляет часть ресурса-->
+        <input type="submit" value="Release the book"/>
+    </form>
+</div>
+
+<div th:if="${people}">
+    <span>This book is free. Who should I assign it to?</span>
+    <form th:method="PATCH" th:action="@{/book/{id}/assign (id=${book.getId()})}">
+        <label for="person">Choose a person</label>
+        <select th:object="${person}" th:field="*{id}" id="person">
+            <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}"/>
+        </select>
+
+        <input type="submit" value="Assign to book"/>
+    </form>
+</div>
+
+
+<form th:method="GET" th:action="@{/book/{id}/edit (id=${book.getId()})}">
+    <input type="submit" value="Edit"/>
+</form>
+
+
+<form th:method="DELETE" th:action="@{/book/{id} (id = ${book.getId()})}">
+    <input type="submit" value="Delete">
+</form>
+</body>
+</html>

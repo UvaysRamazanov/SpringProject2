@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>New person</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/people}" th:object="${person}"><!--POST создаёт ресурсы, а PATCH обновляет часть ресурса-->
+    <label for="fullName">Enter your full name: </label>
+    <input type="text" th:field="*{fullName}" id="fullName"/>
+    <div style="color:red" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">fullName errors</div>
+    <br/>
+    <label for="year">Enter the year of birth: </label>
+    <input type="text" th:field="*{year}" id="year">
+    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">year errors</div>
+    <br/>
+    <input type="submit" VALUE="Create!">
+</form>
+
+</body>
+</html>
